@@ -4,8 +4,20 @@ import json
 
 st.title("Gemini API Key Tester")
 
-# Store API key securely
-api_key = st.text_input("Enter your Gemini API key:", value="AIzaSyB7r8xNPUW0X4vhVKObaUqqBjTt-UrRzo4", type="password")
+# Get API key from secrets.toml or allow user to enter it
+if "gemini_api_key" in st.secrets:
+    default_api_key = st.secrets["gemini_api_key"]
+    api_key_source = "from secrets.toml"
+else:
+    default_api_key = ""
+    api_key_source = "No API key found in secrets.toml"
+
+# Store API key securely with option to override
+api_key = st.text_input(
+    f"Enter your Gemini API key ({api_key_source}):", 
+    value=default_api_key, 
+    type="password"
+)
 st.caption("Your API key is stored securely and not logged.")
 
 # Text prompt input
